@@ -1,0 +1,88 @@
+nav {
+  position: fixed;
+  height: 50px;
+  top: 0;
+  right: 0;
+  left: 0;
+  background: yellow;
+}
+
+
+body > div.container2 {
+  position: fixed;
+  top: calc(3em);
+  bottom: calc(0em);
+  right: 0;
+  left: 0;
+  vertical-align: top;
+}
+
+#map {
+  height: 100%;
+  width: 100%;
+  float: left;
+}
+
+
+/* #userTool {
+  position: absolute;
+  z-index: 500000;
+  right: 17.5em;
+  bottom:.25em;
+} */
+
+/* legend css */
+
+.legend, .temporal-legend {
+  padding: 10px 40px 13px 10px;
+  font: 14px/16px Arial, Helvetica, sans-serif;
+  background: white;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+}
+
+#legendTitle {
+  text-align: center;
+  margin-bottom: 15px;
+  font-variant: small-caps;
+}
+
+.symbolsContainer {
+  float: left;
+  margin-left: 60px;
+}
+
+.legendCircle {
+  border-radius: 50%;
+  border: 2px solid #ffff;
+  background: rgba(216, 98, 107, .6);
+  display: inline-block;
+}
+
+.legendValue {
+  position: absolute;
+  right: 8px;
+}
+
+/* modify tooltip */
+.leaflet-tooltip {
+  width: 300px;
+  white-space: normal;
+}
+
+/* icons */
+.bi {
+  font-size: 1rem;
+}
+
+.bi-person-fill {
+  color: #d8626b;
+}
+
+#houseIcon {
+  font-size: 1.5rem;
+}
+#houseIcon:hover {
+  color: #d7656e;
+  font-size: 1.5rem;
+}
