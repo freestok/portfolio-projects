@@ -6,7 +6,6 @@ let initialExt;
 let housing, legendContainer;
 let checked = true;
 let year = 2019;
-const assets = 'geog575-lab1';
 
 $(document).ready(() => {
     // set-up map and basemap
@@ -25,7 +24,7 @@ $(document).ready(() => {
         opacity: 0
     }
 
-    fetchJSON(`${assets}/urban_boundaries.json`).then((data) => {
+    fetchJSON('./urban_boundaries.json').then((data) => {
         L.geoJSON(data, {
             style: polyStyle,
             interactive: false
@@ -33,7 +32,7 @@ $(document).ready(() => {
     });
 
     // add data to the map
-    fetchJSON(`${assets}/urban_final.json`).then((data) => {
+    fetchJSON('./urban_final.json').then((data) => {
         console.log('data', data);
         housing = L.geoJSON(data, {
             pointToLayer: (feature, latlng) => {
