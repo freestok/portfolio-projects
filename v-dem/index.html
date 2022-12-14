@@ -1,0 +1,231 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" property="og:description"
+        content="The Varieties of Democracy (V-Dem) is an attempt to measure and conceptualize democracy throughout the world. With a global team of over 50 social scientists, they put forth five high-level indicators of democracy (scale 0-1, low-high): electoral, liberal, participatory, deliberative, and egalitatarian indexes.">
+    <meta name="image" property="og:image" content="./img/vdem-preview.png">
+    <meta name="title" property="og:title" content="V-DEM Explorer">
+    <meta name="author" content="Kray Freestone, Ryan Cooper, Kristina Randrup">
+
+    <title>V-DEM Explorer</title>
+    <!-- CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+        integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+        crossorigin="" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Staatliches&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./css/style.css">
+    </link>
+    <link rel="stylesheet" href="./css/d3Style.css">
+    </link>
+
+    <!-- JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chroma-js/2.1.2/chroma.min.js"
+        integrity="sha512-8TVPS0EFkkmtT6yPb5K4csnSt3tjbKRrs0F8gvTNKv2OxOcwDO7+Klkz86gMVrzfqtZos5N2a+k+r9D+hlccmQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"
+        integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://unpkg.com/topojson@3"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.0/dist/chart.min.js"></script>
+
+    <!-- C3.js -->
+    <link rel="stylesheet" href="./lib/c3.css">
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="./lib/c3.js"></script>
+
+</head>
+
+<body>
+    </div>
+    <div class="wrapper">
+        <div class="box sidebar">
+            <div class="container">
+                <div class="row" id="demOverlayRow">
+                    <h2>Symbolize By...</h2>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="elRadio">
+                        <label class="form-check-label" for="elRadio">
+                            Electoral Index
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="liRadio" checked>
+                        <label class="form-check-label" for="liRadio">
+                            Liberal Index
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="paRadio">
+                        <label class="form-check-label" for="paRadio">
+                            Participatory Index
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="deRadio">
+                        <label class="form-check-label" for="deRadio">
+                            Deliberative Index
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="egRadio">
+                        <label class="form-check-label" for="egRadio">
+                            Egalitatrian Index
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="rgRadio">
+                        <label class="form-check-label" for="rgRadio">
+                            Regime Type
+                        </label>
+                    </div>
+                </div>
+                <div class="row mt-2" id="timeSliderRow">
+                    <label for="timeSlider" class="form-label" id="timeLabel">2020</label>
+                    <input type="range" class="form-range" min="2000" max="2020" value="2020" id="timeSlider">
+                </div>
+                <div class="row mt-4" id="advancedRow">
+                    <div class="accordion accordion-flush" id="advancedMenu">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="flush-headingOne">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#flush-collapseOne" aria-expanded="false"
+                                    aria-controls="flush-collapseOne">
+                                    Advanced Menu
+                                </button>
+                            </h2>
+                            <div id="flush-collapseOne" class="accordion-collapse collapse"
+                                aria-labelledby="flush-headingOne" data-bs-parent="#advancedMenu">
+                                <div class="accordion-body">
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="tenYrToggle">
+                                        <label class="form-check-label" for="tenYrToggle">Show 10-year change</label>
+                                    </div>
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="asCartogram">
+                                        <label class="form-check-label" for="asCartogram">View by Population</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-5" id="infoRow">
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal"
+                        data-bs-target="#metadata-modal">
+                        V-DEM Background Info
+                    </button>
+
+
+                </div>
+            </div>
+        </div>
+        <div id="mapContainer" class="map">
+            <div id="map"></div>
+        </div>
+        <div id="d3MapContainer">
+            <div id="d3Map" class="svg-container mt-5"></div>
+        </div>
+        <div class="tray">
+            <div class="tray-container">
+                <div class="modal-content tray-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title report-country-name">Title</h5><span id="regimeLabel"></span>
+                        <button type="button" class="btn-close close tray-close" data-dismiss="modal"
+                            aria-label="Close">
+                            <span aria-hidden="true"></span>
+                        </button>
+                    </div>
+                    <div class="modal-body report-container">
+                        <div class="report-attributes">
+                            <ul id="report-attributes-list"></ul>
+                        </div>
+                        <div class="report-indicator-time-series">
+                            <h2><span id="time-series-title-indicator"></span> by Year</h2>
+                            <div id="report-indicator-time-series-chart"></div>
+                        </div>
+                        <div class="report-indicator-bar">
+                            <h2>Indicator Scores, <span id="bar-chart-title-year"></span></h2>
+                            <div id="report-indicator-bar-chart"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Modal -->
+        <div class="modal fade" id="metadata-modal" tabindex="2" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div id="modalContent" class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">V-DEM: Varieties of Democracy</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div id="metadataBody" class="modal-body">
+                        <p>The <b>Varieties of Democracy</b> (V-Dem) is an attempt to measure
+                            and conceptualize democracy throughout the world. With a global team of over 50
+                            social scientists, they put forth five high-level indicators of democracy (scale 0-1,
+                            low-high):
+                        </p>
+                        <ul>
+                            <li><b>Electoral:</b> Are rulers responsive to citizens? Is there electoral competition?
+                            </li>
+                            <li><b>Liberal:</b> Are individual & minority rights protected? Are limits placed on the
+                                government?</li>
+                            <li><b>Participatory:</b> To what extent do citizens participate in political processes?
+                            </li>
+                            <li><b>Deliberative:</b> Are political descisions motivated by the public good?</li>
+                            <li><b>Egalitatrian:</b> Do inequities hurt the ability of citizens from participating in
+                                government?</li>
+                        </ul>
+                        <figure>
+                            <img class="legendImg" src="./img/legend.png" alt="Legend of data">
+                        </figure>
+
+                        With these high-level indicators, they can group countries into four regime types:
+                        <ul id="regimeList">
+                            <li><b><span id="aut">Closed Autocracy (0)</span></b> No multiparty elections for
+                                legislative or
+                                executive branches of government.</li>
+                            <li><b><span id="elAut">Electoral Autocracy (1)</span></b> De-jure elections are held, but
+                                they
+                                fail to be free and fair.</li>
+                            <li><b><span id="elDem">Electoral Democracy (2)</span></b> De-facto free and fair elections
+                                are
+                                held, but state suffers from a low liberal indicator score.</li>
+                            <li><b><span id="dem">Liberal Democracy (3)</span></b> De-facto free and fair elections and
+                                satisfactory levels of high-level indicators are met.</li>
+                        </ul>
+
+                        <!-- <p>Varieties of Democracy (V-Dem) is a new approach to conceptualizing and measuring democracy. We provide a multidimensional and disaggregated dataset that reflects the complexity of the concept of democracy as a system of rule that goes beyond the simple presence of elections. The V-Dem project distinguishes between five high-level principles of democracy: electoral, liberal, participatory, deliberative, and egalitarian, and collects data to measure these principles.</p>
+                            <p>V-Dem is one of the largest-ever social science data collection efforts with a database containing over 28.4 million data points. The latest version of the dataset, v11, covers 202 countries from 1789-2020 with annual updates to follow.</p> -->
+                        <p><a href="https://github.com/freestok/kryanina" , target="_blank">Created by Kray Freestone,
+                                Ryan
+                                Cooper, and Kristina Randrup</a></p>
+                    </div>
+                    <div class="modal-footer">
+                        <h3><a href="https://www.v-dem.net/en/data/data/v-dem-dataset-v111/" target="_blank">V-Dem
+                                datasets</a></h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+        integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+        crossorigin=""></script>
+    <script src="./js/main.js" type="module"></script>
+</body>
+
+</html>

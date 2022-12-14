@@ -1,0 +1,120 @@
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta property="og:image" content="https://freestok.github.io/assets/img/site-preview.png" />
+  <!-- <meta property="og:description" content="Collection of project" /> -->
+  <!-- <meta property="og:url"content="" /> -->
+  <meta property="og:title" content="Kray's Portfolio" />
+
+  <!-- CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="./style.css">
+  </link>
+
+  <!-- JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
+    crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"
+    integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <script src="https://unpkg.com/topojson@3"></script>
+  <script src="./main.js" type="module"></script>
+</head>
+
+<body style="margin:0;">
+  <!-- As a heading -->
+  <nav class="navbar navbar-light" style="background-color: #e3f2fd;">
+    <div class="container-fluid">
+      <span class="navbar-brand mb-0 h1 text-center">Making Sense of the 2020 Election 🤔</span>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="flexRadioDefault" id="choroRadio" checked>
+        <label class="form-check-label" for="choroRadio">
+          Choropleth (colored by win margin)
+        </label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="flexRadioDefault" id="bubbleRadio">
+        <label class="form-check-label" for="bubbleRadio">
+          Bubble Map (sized by population)
+        </label>
+      </div>
+      <!-- Button trigger modal -->
+      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        More Info
+      </button>
+
+      <!-- Modal -->
+      <div class="modal fade" id="exampleModal" tabindex="1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">On Mapping an Election</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body align-left">
+              There are many ways to map an election, and each form represents a different kind of truth.
+              Here, we will examine two.
+              <br><br>
+              The default view shows your typical choropleth map. It is colored by winner (Democrat or Republican) and
+              darkened by how large the win margin is. So if there was a land-slide victory for Donald Trump, you would
+              expect to see a dark-red county.
+
+              Visualizing it this way (instead of a simple red for a Republican win) shows a bit more nuance. We can see
+              how
+              close the split is in a lot of counties. However, while it is <em>better</em> than a simple win/loss
+              visualization,
+              it still has some faults. Even by accounting for near ties, one would think that Donald Trump should have
+              won
+              (I see a lot of red). That's because this map fails to visualize something vitally important: population.
+              <br><br>
+              Since land doesn't vote, and people do*, the second map still shows each winner by color, but each county
+              is now
+              represented as a circle. The size of the circle is determined by the total amount of votes cast in each
+              county. While this
+              map does suffer from counties obscuring one another, it gives us a sense of how many votes were cast in
+              either
+              direction. Perhaps a better form of this map would include a <em>graduated</em> symbol instead, where
+              populations
+              are classed into certain sizes (so we can see the incredibly tiny circles in, say, the Great Plains).
+              <br><br>
+              <em>*Okay fine, electors vote.</em>
+              <br><br>
+              Data: <em>MIT Election Data and Science Lab, 2018, "County Presidential Election Returns 2000-2020", <a
+                  href="https://doi.org/10.7910/DVN/VOQCHQ">https://doi.org/10.7910/DVN/VOQCHQ</a>,
+                Harvard Dataverse, V9, UNF:6:qSwUYo7FKxI6vd/3Xev2Ng== [fileUNF] </em>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+  <div class="container-fluid">
+    <div id="row1" class="row">
+      <div class="col-4">
+        <svg id="d3BubbleLegend"></svg>
+        <svg id="d3ChoroLegend"></svg>
+      </div>
+      <div class="col-md-auto">
+        <svg id="d3Chart"></svg>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <div id="d3ChoroMap"></div>
+        <div id="d3BubbleMap"></div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
